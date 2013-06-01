@@ -82,7 +82,7 @@ minetest.register_tool("fireballs:fireball", {
 })
 
 minetest.register_craft({
-output = '"fireballs:fireball" 1',
+output = "fireballs:fireball",
 recipe = {
 {'', 'default:torch', ''},
 {'', 'default:mese_crystal', ''},
@@ -144,7 +144,7 @@ minetest.register_tool("fireballs:iceball", {
 })
 
 minetest.register_craft({
-output = '"fireballs:iceball" 1',
+output = "fireballs:iceball",
 recipe = {
 {'', 'default:torch', ''},
 {'', 'default:mese_crystal', ''},
