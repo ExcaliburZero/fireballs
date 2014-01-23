@@ -111,8 +111,6 @@ minetest.register_entity("fireballs:iceball", {
 				return
 			end
 			pos.y = pos.y-1
-			for _,player in pairs(minetest.env:get_objects_inside_radius(pos, 1)) do
-			end
 		end,
 	hit_node = function(self, pos, node)
 		for dx=-2,1 do
@@ -122,6 +120,12 @@ minetest.register_entity("fireballs:iceball", {
 					local n = minetest.env:get_node(p).name
 					if (n == "default:water_source") then
 						minetest.env:set_node(p, {name="fireballs:lightice"})
+					end
+					if (n == "default:lava_source") then
+						minetest.env:set_node(p, {name="default:stone"})
+					end
+					if (n == "default:lava_flowing") then
+						minetest.env:set_node(p, {name="default:stone"})
 					end
 				end
 			end
