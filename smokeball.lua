@@ -31,9 +31,10 @@ minetest.register_abm({
 -- -- -- -- -- -- -- --
 
 minetest.register_entity("fireballs:smokeball", {
-	visual = "sprite",
-	visual_size = {x=1, y=1},
-	textures = {"fireballs_smokeball.png"},
+	visual = "mesh",
+	visual_size = {x=5, y=5},
+	mesh = "fireballs_smokeball.x",
+	textures = {"fireballs_smokeball_texture.png"},
 	velocity = 5,
 	light_source = 12,
 	on_step = function(self, dtime)

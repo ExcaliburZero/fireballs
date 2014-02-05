@@ -5,10 +5,10 @@
 -- -- -- -- -- -- -- --
 
 minetest.register_entity("fireballs:fireball", {
-	visual = "sprite",
-	visual_size = {x=1, y=1},
-	--textures = {{name="fireballs_fireball.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=0.5}}}, FIXME
-	textures = {"fireballs_fireball.png"},
+	visual = "mesh",
+	visual_size = {x=5, y=5},
+	mesh = "fireballs_fireball.x",
+	textures = {"fireballs_fireball_texture.png"},
 	velocity = 5,
 	light_source = 12,
 	on_step = function(self, dtime)
@@ -97,10 +97,10 @@ recipe = {
 -- -- -- -- -- -- -- --
 
 minetest.register_entity("fireballs:iceball", {
-	visual = "sprite",
-	visual_size = {x=1, y=1},
-	--textures = {{name="fireballs_iceball.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=0.5}}}, FIXME
-	textures = {"fireballs_iceball.png"},
+	visual = "mesh",
+	visual_size = {x=5, y=5},
+	mesh = "fireballs_iceball.x",
+	textures = {"fireballs_iceball_texture.png"},
 	velocity = 5,
 	light_source = 12,
 	on_step = function(self, dtime)

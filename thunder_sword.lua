@@ -33,10 +33,10 @@ minetest.register_abm({
 -- -- -- -- -- -- -- --
 
 minetest.register_entity("fireballs:thunderball", {
-	visual = "sprite",
-	visual_size = {x=1, y=1},
-	--textures = {{name="fireballs_thunderball.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=0.5}}}, FIXME
-	textures = {"fireballs_thunderball.png"},
+	visual = "mesh",
+	visual_size = {x=5, y=5},
+	mesh = "fireballs_thunderball.x",
+	textures = {"fireballs_thunderball_texture.png"},
 	velocity = 8,
 	light_source = 2,
 	on_step = function(self, dtime)
