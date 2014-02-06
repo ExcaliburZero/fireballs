@@ -57,10 +57,6 @@ minetest.register_entity("fireballs:smokeball", {
 		local s = player:getpos()
 		local p = player:get_look_dir()
 		local vec = {x=s.x-p.x, y=s.y-p.y, z=s.z-p.z}
-		player:punch(self.object, 1.0,  {
-			full_punch_interval=1.0,
-			damage_groups = {fleshy=4},
-		}, vec)
 		local pos = player:getpos()
 		for dx=0,1 do
 			for dy=0,1 do
