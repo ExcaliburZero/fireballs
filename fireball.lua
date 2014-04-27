@@ -96,6 +96,32 @@ recipe = {
 -- -- -- -- -- -- -- --
 -- -- -- -- -- -- -- --
 
+local snow_box =
+{
+	type  = "fixed",
+	fixed = {-0.5, -0.5, -0.5, 0.5, -0.4, 0.5}
+}
+
+-- Snow cover
+minetest.register_node("fireballs:snow_cover", {
+	tiles = {"weather_snow_cover.png"},
+	drawtype = "nodebox",
+	paramtype = "light",
+	node_box = snow_box,
+	selection_box = snow_box,
+	groups = {not_in_creative_inventory = 1, crumbly = 3, attached_node = 1},
+	drop = {}
+})
+
+minetest.register_abm({
+	nodenames = {"fireballs:snow_cover"},
+	interval = 1.0,
+	chance = 20,
+	action = function(pos, node, active_object_count, active_object_count_wider)
+		minetest.env:set_node(pos, {name = "default:water_flowing"})
+	end,
+})
+
 minetest.register_entity("fireballs:iceball", {
 	visual = "mesh",
 	visual_size = {x=5, y=5},
@@ -114,18 +140,24 @@ minetest.register_entity("fireballs:iceball", {
 		end,
 	hit_node = function(self, pos, node)
 		for dx=-2,1 do
-			for dy=-1,1 do
-				for dz=-2,1 do
+			for dy=1,-1,-1 do
+				for dz=-1,1 do
 					local p = {x=pos.x+dx, y=pos.y+dy, z=pos.z+dz}
 					local n = minetest.env:get_node(p).name
+					local psub = {x=pos.x+dx, y=pos.y+dy-1, z=pos.z+dz}
+					local nsub = minetest.env:get_node(psub).name
+					-- if it's water then freeze to light ice or if lava to stone
+					-- if it's not water then coat in a layer of snow
 					if (n == "default:water_source") then
 						minetest.env:set_node(p, {name="fireballs:lightice"})
-					end
-					if (n == "default:lava_source") then
+					elseif (n == "default:water_flowing") then
+						minetest.env:set_node(p, {name="air"})
+					elseif (n == "default:lava_source") then
 						minetest.env:set_node(p, {name="default:stone"})
-					end
-					if (n == "default:lava_flowing") then
+					elseif (n == "default:lava_flowing") then
 						minetest.env:set_node(p, {name="default:stone"})
+					elseif (n == "air") and (not (nsub == "air")) and (not (nsub == "fireballs:snow_cover")) then
+						minetest.env:add_node(p, {name="fireballs:snow_cover"})
 					end
 				end
 			end
@@ -140,7 +172,7 @@ minetest.register_tool("fireballs:iceball", {
 			local dir = placer:get_look_dir();
 			local playerpos = placer:getpos();
 			local obj = minetest.env:add_entity({x=playerpos.x+0+dir.x,y=playerpos.y+2+dir.y,z=playerpos.z+0+dir.z}, "fireballs:iceball")
-			local vec = {x=dir.x*3,y=dir.y*3,z=dir.z*3}
+			local vec = {x=dir.x*4,y=dir.y*4,z=dir.z*4}
 			obj:setvelocity(vec)
 		return itemstack
 	end,
