@@ -47,13 +47,27 @@ minetest.register_entity("fireballs:thunderball", {
 				return
 			end
 			pos.y = pos.y-1
-			for _,player in pairs(minetest.env:get_objects_inside_radius(pos, 1)) do
-				if player:is_player() then
-					self.hit_player(self, player)
+			local objs = minetest.get_objects_inside_radius({x=pos.x,y=pos.y,z=pos.z}, 2)
+			for k, obj in pairs(objs) do
+			if obj:get_luaentity() ~= nil then
+				if obj:get_luaentity().name ~= "fireballs:thunderball" and obj:get_luaentity().name ~= "__builtin:item" then
+					local speed = vector.length(self.object:getvelocity())
+					local damage = ((speed + 5)^1.2)/10
+					obj:punch(self.object, 1.0, {
+						full_punch_interval=1.0,
+						damage_groups={fleshy=damage},
+					}, nil)
 					self.object:remove()
-					return
 				end
 			end
+		end
+			--for _,player in pairs(minetest.env:get_objects_inside_radius(pos, 1)) do
+			--	if player:is_player() then
+			--		self.hit_player(self, player)
+			--		self.object:remove()
+			--		return
+			--	end
+			--end
 		end,
 	hit_player = function(self, player)
 		local s = player:getpos()
